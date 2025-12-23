@@ -26,6 +26,11 @@ const app = {
         
     },
 
+    onLoaded() {
+        console.log("Game Started");
+        
+    },
+
     switchScene(sceneName) {
         let scene;
         let logic;

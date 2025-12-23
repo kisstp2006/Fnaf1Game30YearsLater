@@ -3,7 +3,7 @@
     
     <Font family="Consolas" src="Assets/Font/CONSOLA.TTF" />
     
-    <AnimatedSprite name="AnimSprite1" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="32" frameHeight="32" layer="-1">
+    <AnimatedSprite name="MenuBG" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="32" frameHeight="32" layer="-1">
         <Animation name="Base" frames="Assets/0.png" speed="10" loop="true" autoplay="true" />
         <Animation name="Glitch1" frames="Assets/2.png" speed="10" loop="true" autoplay="false" />
     </AnimatedSprite>
@@ -17,4 +17,5 @@
     <Audio name="Audio10" src="Assets/JoshWoodward-Ashes-NoVox-02-Cherubs (Cover) - Copy.mp3" loop="true" autoplay="true" layer="0" />
     <Text name="6thnight" text="6th Night" x="58" y="678.6482191027678" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Text name="exit" text="Exit" x="58" y="783.7583128459548" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
+    <Text name="Text12" text="Beta" x="1662.3109832134267" y="908.5245083932841" fontSize="120" fontFamily="Arial" color="#ffffff" layer="0" />
 </Scene>
