@@ -1,7 +1,10 @@
 <Scene name="GameScene">
     <Camera name="MainCamera" x="0" y="0" zoom="1" width="1920" height="1080" />
     
-    <Text name="Text" text="12 AM" fontFamily="Consolas" x="837.2182254196641" y="349.6882494004796" fontSize="75" layer="0" centerX="true" />
-    <Text name="Text_copy" text="Night 1" fontFamily="Consolas" x="825.5461085676911" y="423.6843252670591" fontSize="75" layer="0" centerX="true" />
-    <Sprite name="Sprite" imageSrc="Assets/482.png" x="1768.3665616394157" y="937.5270633006322"  width="128" height="128" layer="0" />
+    <Text name="Text" text="12 AM" x="837.2182254196641" y="349.6882494004796" fontSize="75" fontFamily="Consolas" layer="0" />
+    <Text name="Text_copy" text="Night 1" x="825.5461085676911" y="423.6843252670591" fontSize="75" fontFamily="Consolas" layer="0" />
+    <Sprite name="Sprite" imageSrc="Assets/482.png" x="1768.3665616394157" y="937.5270633006322" width="128" height="128" layer="0" />
+    <AnimatedSprite name="AnimatedSprite" imageSrc="" x="3.422541966426741" y="3.152038369304834" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="1">
+        <Animation name="Base" frames="Assets/Static2/10.png, Assets/Static2/21.png, Assets/Static2/22.png, path/to/frame.png" speed="10" loop="false" autoplay="true" />
+    </AnimatedSprite>
 </Scene>
