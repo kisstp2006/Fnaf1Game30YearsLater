@@ -29,4 +29,5 @@
         <ClickableArea name="ExitHitbox" />
     </Text>
     <Text name="Text12" text="Beta" x="1662.3109832134267" y="908.5245083932841" fontSize="120" fontFamily="Arial" color="#ffffff" layer="0" />
+    <Sprite name="NewsPaper" imageSrc="Assets/539.png" x="805.3228689775452" y="416.96568563331147" width="128" height="128" layer="3" />
 </Scene>
