@@ -14,16 +14,18 @@
         <ClickableArea name="ContinueHitbox" />
     </Text>
     <Text name="Five" text="Five" x="63.081388614936564" y="84.53599320779767" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
-        <ClickableArea name="6thnightHitbox" />
     </Text>
     <Text name="Five_copy" text="Nights" x="62.43342700694169" y="149.47567435461008" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
-        <ClickableArea name="ExitHitbox" />
     </Text>
     <Text name="Five_copy_copy" text="At" x="63.27016215663487" y="216.92756826965552" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Text name="Five_copy_copy_copy" text="Freddys" x="63.19436088488487" y="278.9042436560419" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Text name="Continue_copy" text="Created by: TIGames" x="1435.1804204417597" y="1022.6029670714731" fontSize="45" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Audio name="Audio10" src="Assets/JoshWoodward-Ashes-NoVox-02-Cherubs (Cover) - Copy.mp3" loop="true" autoplay="false" layer="0" />
-    <Text name="6thnight" text="6th Night" x="58" y="678.6482191027678" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
-    <Text name="Exit" text="Exit" x="58" y="783.7583128459548" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
+    <Text name="6thnight" text="6th Night" x="58" y="678.6482191027678" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
+        <ClickableArea name="6thnightHitbox" />
+    </Text>
+    <Text name="Exit" text="Exit" x="58" y="783.7583128459548" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
+        <ClickableArea name="ExitHitbox" />
+    </Text>
     <Text name="Text12" text="Beta" x="1662.3109832134267" y="908.5245083932841" fontSize="120" fontFamily="Arial" color="#ffffff" layer="0" />
 </Scene>

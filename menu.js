@@ -73,8 +73,46 @@ export const MenuLogic = {
                 console.log("Continue Clicked");
             };
         }
+        if (this.hatthnighthitbox && this.hatthnighttext) {
+            this.hatthnighthitbox.onEnter = () => {
+                this.hatthnighttext.setColor(200, 200, 255);
+                console.log("6th Night Hovered");
+                this.hatthnighttext.text=">6th Night";
+            };
+            this.hatthnighthitbox.onExit = () => {
+                this.hatthnighttext.setColor(255, 255, 255);
+                console.log("6th Night Unhovered");
+                this.hatthnighttext.text="6th Night";
+            };
+            this.hatthnighthitbox.onClick = () => {
+                context.switchScene("game");
+                console.log("6th Night Clicked");
+            };
+        }
 
-        this.newgametext.text=">New Game";
+        if (this.exithitbox && this.exittext) {
+            this.exithitbox.onEnter = () => {
+                this.exittext.setColor(200, 200, 255);
+                console.log("Exit Hovered");
+                this.exittext.text=">Exit";
+            };
+            this.exithitbox.onExit = () => {
+                this.exittext.setColor(255, 255, 255);
+                console.log("Exit Unhovered");
+                this.exittext.text="Exit";
+            };
+            this.exithitbox.onClick = () => {
+                console.log("Exit Clicked");
+                if (context.window && context.window.close) {
+                    context.window.close();
+                } else if (window.electronAPI && window.electronAPI.close) {
+                    window.electronAPI.close();
+                }
+            };
+        }
+
+
+        this.newgametext.text="New Game";
         this.continuetext.text="Continue";
         this.hatthnighttext.text="6th Night";
         this.exittext.text="Exit";
