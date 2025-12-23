@@ -8,7 +8,7 @@
         <Animation name="Glitch1" frames="Assets/2.png" speed="10" loop="true" autoplay="false" />
     </AnimatedSprite>
     <AnimatedSprite name="Static" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
-        <Animation name="Base" frames="Assets/Static/12.png, Assets/Static/13.png, Assets/Static/14.png, Assets/Static/16.png, Assets/Static/17.png" speed="10" loop="true" autoplay="false" />
+        <Animation name="Base" frames="Assets/Static/12.png, Assets/Static/13.png, Assets/Static/14.png, Assets/Static/16.png, Assets/Static/17.png" speed="40" loop="true" autoplay="false" />
     </AnimatedSprite>
     <Text name="NewGame" text="New Game" x="58" y="473.1883075306462" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1">
         <ClickableArea name="NewGameHitbox" />
