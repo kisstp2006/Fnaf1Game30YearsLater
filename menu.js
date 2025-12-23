@@ -2,24 +2,49 @@ export const MenuLogic = {
     menubg: null,
     wichrobot:0, //0 = Freddy, 1 = Bonnie, 2 = Chica, 3 = Foxy
 
+    newgametext: null,
+
+    continuetext: null,
+
+    hatthnighttext: null,
+
+    exittext: null,
+
+
+    newgamehitbox: null,
+
+    continuethitbox: null,
+
+    hatthnighthitbox: null,
+
+    exithitbox: null,
+
     onEnter(scene, context) {
         console.log("Menu Logic Loaded");
-        this.menubg = scene.getObjectByName("MenuBG");
+        this.menubg = (scene.getObjectByName("MenuBG"));
+
+        this.newgametext =  (scene.getObjectByName("NewGame"));
+        this.continuetext =  (scene.getObjectByName("Continue"));
+        this.hatthnighttext =  (scene.getObjectByName("6thnight"));
+        this.exittext =  (scene.getObjectByName("Exit"));
+
+
         this.wichrobot = Math.floor(Math.random() * 4); //Randomly select a robot
-        
-        const btnSprite = scene.getObjectByName("StartButton");
-        const btnHitbox = scene.getObjectByName("StartButtonHitbox");
-        
-        if (btnHitbox && btnSprite) {
-            btnHitbox.onEnter = () => {
-                btnSprite.setColor(200, 200, 255); // Tint
+
+        if (this.newgamehitbox && this.newgametext) {
+            this.newgamehitbox.onEnter = () => {
+                this.newgametext.setColor(200, 200, 255); // Tint
+                console.log("New Game Hovered");
                 
             };
-            btnHitbox.onExit = () => {
-                btnSprite.setColor(255, 255, 255); // Reset
+            this.newgamehitbox.onExit = () => {
+                this.newgametext.setColor(255, 255, 255); // Reset
+                console.log("New Game Unhovered");
+
             };
-            btnHitbox.onClick = () => {
+            this.newgamehitbox.onClick = () => {
                 context.switchScene("game");
+                console.log("New Game Clicked");
             };
         }
     },
@@ -37,6 +62,9 @@ export const MenuLogic = {
         if (this.menubg) {
             this.menubg.setTransparency(randomNumber);
         }
+
+        this.newgametext.setText("");
+        
 
     }
 };
