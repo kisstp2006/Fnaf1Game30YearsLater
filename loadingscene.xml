@@ -1,0 +1,7 @@
+<Scene name="GameScene">
+    <Camera name="MainCamera" x="0" y="0" zoom="1" width="1920" height="1080" />
+    
+    <Text name="Text" text="12 AM" fontFamily="Consolas" x="837.2182254196641" y="349.6882494004796" fontSize="75" layer="0" centerX="true" />
+    <Text name="Text_copy" text="Night 1" fontFamily="Consolas" x="825.5461085676911" y="423.6843252670591" fontSize="75" layer="0" centerX="true" />
+    <Sprite name="Sprite" imageSrc="Assets/482.png" x="1768.3665616394157" y="937.5270633006322"  width="128" height="128" layer="0" />
+</Scene>

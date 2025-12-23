@@ -2,6 +2,7 @@ import Engine from "../../Fluxion/Core/Engine.js";
 import SceneLoader from "../../Fluxion/Core/SceneLoader.js";
 import Input from "../../Fluxion/Core/Input.js";
 import { MenuLogic } from "./menu.js";
+import { LoadingLogic } from "./loading.js";
 import { GameLogic } from "./game.js";
 
 const input = new Input();
@@ -9,6 +10,7 @@ const input = new Input();
 const app = {
     currentScene: null,
     menuScene: null,
+    loadingScene: null,
     gameScene: null,
     renderer: null,
     currentLogic: null,
@@ -19,6 +21,7 @@ const app = {
         console.log("Loading scenes...");
         // Load both scenes
         this.menuScene = await SceneLoader.load("./menu.xml", renderer);
+        this.loadingScene = await SceneLoader.load("./loadingscene.xml", renderer);
         this.gameScene = await SceneLoader.load("./game.xml", renderer);
         
         // Start with Menu
@@ -38,6 +41,9 @@ const app = {
         if (sceneName === "menu") {
             scene = this.menuScene;
             logic = MenuLogic;
+        } else if (sceneName === "loading") {
+            scene = this.loadingScene;
+            logic = LoadingLogic;
         } else if (sceneName === "game") {
             scene = this.gameScene;
             logic = GameLogic;

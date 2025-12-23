@@ -2,6 +2,12 @@ export const MenuLogic = {
     menubg: null,
     static: null,
 
+    newspaperFadeActive: false,
+    newspaperFadeAlpha: 0,
+    newspaperWaitAfterFade: 2.0,
+    newspaperWaitTimer: 0,
+    newspaperSwitchQueued: false,
+
     wichrobot:0, //0 = Freddy, 1 = Bonnie, 2 = Chica, 3 = Foxy
 
     newgametext: null,
@@ -21,6 +27,11 @@ export const MenuLogic = {
 
     exithitbox: null,
 
+
+    newspaper: null,
+
+
+
     onEnter(scene, context) {
         console.log("Menu Logic Loaded");
         this.menubg = (scene.getObjectByName("MenuBG"));
@@ -37,6 +48,8 @@ export const MenuLogic = {
 
 
         this.static = (scene.getObjectByName("Static"));
+
+        this.newspaper = (scene.getObjectByName("NewsPaper"));
 
 
 
@@ -56,7 +69,8 @@ export const MenuLogic = {
 
             };
             this.newgamehitbox.onClick = () => {
-                context.switchScene("game");
+                //context.switchScene("game");
+                this.fadetoNewsPaper();
                 console.log("New Game Clicked");
             };
         }
@@ -74,7 +88,7 @@ export const MenuLogic = {
 
             };
             this.continuethitbox.onClick = () => {
-                context.switchScene("game");
+                context.switchScene("loading");
                 console.log("Continue Clicked");
             };
         }
@@ -90,7 +104,7 @@ export const MenuLogic = {
                 this.hatthnighttext.text="6th Night";
             };
             this.hatthnighthitbox.onClick = () => {
-                context.switchScene("game");
+                context.switchScene("loading");
                 console.log("6th Night Clicked");
             };
         }
@@ -147,5 +161,37 @@ export const MenuLogic = {
             this.static.setTransparency(randomNumber2);
         }
 
+        if (this.newspaperFadeActive && this.newspaper) {
+            // Fade in over ~1 second
+            const fadeSpeed = 255; // alpha per second
+            this.newspaperFadeAlpha = Math.min(255, this.newspaperFadeAlpha + fadeSpeed * deltaTime);
+            this.newspaper.setTransparency(this.newspaperFadeAlpha);
+
+            if (this.newspaperFadeAlpha >= 255) {
+                this.newspaperFadeActive = false;
+                this.newspaperSwitchQueued = true;
+                this.newspaperWaitTimer = 0;
+            }
+        }
+
+        if (this.newspaperSwitchQueued) {
+            this.newspaperWaitTimer += deltaTime;
+            if (this.newspaperWaitTimer >= this.newspaperWaitAfterFade) {
+                this.newspaperSwitchQueued = false;
+                context.switchScene("loading");
+            }
+        }
+
+    },
+
+    fadetoNewsPaper(){
+        if (!this.newspaper) return;
+
+        this.newspaperFadeActive = true;
+        this.newspaperFadeAlpha = 0;
+        this.newspaper.setTransparency(0);
+
+        this.newspaperSwitchQueued = false;
+        this.newspaperWaitTimer = 0;
     }
 };
