@@ -29,6 +29,10 @@ export const MenuLogic = {
         this.exittext =  (scene.getObjectByName("Exit"));
 
         this.newgamehitbox =  (scene.getObjectByName("NewGameHitbox"));
+        this.continuethitbox =  (scene.getObjectByName("ContinueHitbox"));
+        this.hatthnighthitbox =  (scene.getObjectByName("6thnightHitbox"));
+        this.exithitbox =  (scene.getObjectByName("ExitHitbox"));
+
 
 
         this.wichrobot = Math.floor(Math.random() * 4); //Randomly select a robot
