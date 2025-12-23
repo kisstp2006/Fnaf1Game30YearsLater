@@ -4,27 +4,28 @@
     <Font family="Consolas" src="Assets/Font/CONSOLA.TTF" />
     
     <AnimatedSprite name="MenuBG" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="32" frameHeight="32" layer="-1">
-        <Animation name="Base" frames="Assets/0.png" speed="10" loop="true" autoplay="true" />
+        <Animation name="Base" frames="Assets/0.png" speed="10" loop="true" autoplay="false" />
         <Animation name="Glitch1" frames="Assets/2.png" speed="10" loop="true" autoplay="false" />
     </AnimatedSprite>
-    <Text name="NewGame" text="New Game" x="58" y="473.1883075306462" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
+    <AnimatedSprite name="Static" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
+        <Animation name="Base" frames="Assets/Static/12.png, Assets/Static/13.png, Assets/Static/14.png, Assets/Static/16.png, Assets/Static/17.png" speed="10" loop="true" autoplay="false" />
+    </AnimatedSprite>
+    <Text name="NewGame" text="New Game" x="58" y="473.1883075306462" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1">
         <ClickableArea name="NewGameHitbox" />
     </Text>
-    <Text name="Continue" text="Continue" x="58" y="577.5771098676236" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
+    <Text name="Continue" text="Continue" x="58" y="577.5771098676236" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1">
         <ClickableArea name="ContinueHitbox" />
     </Text>
-    <Text name="Five" text="Five" x="63.081388614936564" y="84.53599320779767" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
-    </Text>
-    <Text name="Five_copy" text="Nights" x="62.43342700694169" y="149.47567435461008" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
-    </Text>
+    <Text name="Five" text="Five" x="63.081388614936564" y="84.53599320779767" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
+    <Text name="Five_copy" text="Nights" x="62.43342700694169" y="149.47567435461008" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Text name="Five_copy_copy" text="At" x="63.27016215663487" y="216.92756826965552" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Text name="Five_copy_copy_copy" text="Freddys" x="63.19436088488487" y="278.9042436560419" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Text name="Continue_copy" text="Created by: TIGames" x="1435.1804204417597" y="1022.6029670714731" fontSize="45" fontFamily="Consolas" color="#ffffff" layer="1" />
     <Audio name="Audio10" src="Assets/JoshWoodward-Ashes-NoVox-02-Cherubs (Cover) - Copy.mp3" loop="true" autoplay="false" layer="0" />
-    <Text name="6thnight" text="6th Night" x="58" y="678.6482191027678" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
+    <Text name="6thnight" text="6th Night" x="58" y="678.6482191027678" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1">
         <ClickableArea name="6thnightHitbox" />
     </Text>
-    <Text name="Exit" text="Exit" x="58" y="783.7583128459548" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" >
+    <Text name="Exit" text="Exit" x="58" y="783.7583128459548" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1">
         <ClickableArea name="ExitHitbox" />
     </Text>
     <Text name="Text12" text="Beta" x="1662.3109832134267" y="908.5245083932841" fontSize="120" fontFamily="Arial" color="#ffffff" layer="0" />

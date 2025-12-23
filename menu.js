@@ -1,5 +1,7 @@
 export const MenuLogic = {
     menubg: null,
+    static: null,
+
     wichrobot:0, //0 = Freddy, 1 = Bonnie, 2 = Chica, 3 = Foxy
 
     newgametext: null,
@@ -32,6 +34,9 @@ export const MenuLogic = {
         this.continuethitbox =  (scene.getObjectByName("ContinueHitbox"));
         this.hatthnighthitbox =  (scene.getObjectByName("6thnightHitbox"));
         this.exithitbox =  (scene.getObjectByName("ExitHitbox"));
+
+
+        this.static = (scene.getObjectByName("Static"));
 
 
 
@@ -124,7 +129,13 @@ export const MenuLogic = {
             context.switchScene("game");
         }
         */
-       const randomNumber = Math.floor(Math.random() * 51) + 150;
+         // Opacity in this engine is 0..255 (lower = more transparent)
+         // More transparent overall + bigger interval (wider range)
+         const randomNumber = Math.floor(Math.random() * 61) + 80; // 80..140
+
+         // Static overlay: even more transparent + bigger interval
+         const randomNumber2 = Math.floor(Math.random() * 71) + 10; // 10..80
+
 
         console.log("[DEBUG ]Random Number:", randomNumber);
         
@@ -132,7 +143,9 @@ export const MenuLogic = {
             this.menubg.setTransparency(randomNumber);
         }
 
-        
+        if (this.static) {
+            this.static.setTransparency(randomNumber2);
+        }
 
     }
 };
