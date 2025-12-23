@@ -28,6 +28,8 @@ export const MenuLogic = {
         this.hatthnighttext =  (scene.getObjectByName("6thnight"));
         this.exittext =  (scene.getObjectByName("Exit"));
 
+        this.newgamehitbox =  (scene.getObjectByName("NewGameHitbox"));
+
 
         this.wichrobot = Math.floor(Math.random() * 4); //Randomly select a robot
 
@@ -35,11 +37,13 @@ export const MenuLogic = {
             this.newgamehitbox.onEnter = () => {
                 this.newgametext.setColor(200, 200, 255); // Tint
                 console.log("New Game Hovered");
+                this.newgametext.text=">New Game";
                 
             };
             this.newgamehitbox.onExit = () => {
                 this.newgametext.setColor(255, 255, 255); // Reset
                 console.log("New Game Unhovered");
+                this.newgametext.text="New Game";
 
             };
             this.newgamehitbox.onClick = () => {
@@ -47,6 +51,29 @@ export const MenuLogic = {
                 console.log("New Game Clicked");
             };
         }
+        if (this.continuethitbox && this.continuetext) {
+            this.continuethitbox.onEnter = () => {
+                this.continuetext.setColor(200, 200, 255); // Tint
+                console.log("Continue Hovered");
+                this.continuetext.text=">Continue";
+                
+            };
+            this.continuethitbox.onExit = () => {
+                this.continuetext.setColor(255, 255, 255); // Reset
+                console.log("Continue Unhovered");
+                this.continuetext.text="Continue";
+
+            };
+            this.continuethitbox.onClick = () => {
+                context.switchScene("game");
+                console.log("Continue Clicked");
+            };
+        }
+
+        this.newgametext.text=">New Game";
+        this.continuetext.text="Continue";
+        this.hatthnighttext.text="6th Night";
+        this.exittext.text="Exit";
     },
 
     update(scene, deltaTime, input, context) {
@@ -63,7 +90,6 @@ export const MenuLogic = {
             this.menubg.setTransparency(randomNumber);
         }
 
-        this.newgametext.setText("");
         
 
     }
