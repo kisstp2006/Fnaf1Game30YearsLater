@@ -2,6 +2,11 @@ export const MenuLogic = {
     menubg: null,
     static: null,
 
+    scenecamera: null,
+
+    cameraMoveTargetX: null,
+    isCameraMoving: false,
+
     newspaperFadeActive: false,
     newspaperFadeAlpha: 0,
     newspaperWaitAfterFade: 2.0,
@@ -9,25 +14,18 @@ export const MenuLogic = {
     newspaperSwitchQueued: false,
 
     wichrobot:0, //0 = Freddy, 1 = Bonnie, 2 = Chica, 3 = Foxy
-
     newgametext: null,
-
     continuetext: null,
-
     hatthnighttext: null,
-
     exittext: null,
+    settingstext:null,
 
 
     newgamehitbox: null,
-
     continuethitbox: null,
-
     hatthnighthitbox: null,
-
     exithitbox: null,
-
-
+    settingshitbox: null,
     newspaper: null,
 
 
@@ -41,15 +39,22 @@ export const MenuLogic = {
         this.hatthnighttext =  (scene.getObjectByName("6thnight"));
         this.exittext =  (scene.getObjectByName("Exit"));
 
+        this.settingstext =  (scene.getObjectByName("Settings"));
+
+
         this.newgamehitbox =  (scene.getObjectByName("NewGameHitbox"));
         this.continuethitbox =  (scene.getObjectByName("ContinueHitbox"));
         this.hatthnighthitbox =  (scene.getObjectByName("6thnightHitbox"));
         this.exithitbox =  (scene.getObjectByName("ExitHitbox"));
 
+        this.settingshitbox =  (scene.getObjectByName("SettingsHitbox"));
+
 
         this.static = (scene.getObjectByName("Static"));
 
         this.newspaper = (scene.getObjectByName("NewsPaper"));
+
+        this.scenecamera = scene.getObjectByName("MainCamera");
 
 
 
@@ -129,15 +134,48 @@ export const MenuLogic = {
                 }
             };
         }
-
+        if( this.settingshitbox && this.settingstext) {
+            this.settingshitbox.onEnter = () => {
+                this.settingstext.setColor(200, 200, 255);
+                console.log("Settings Hovered");
+                this.settingstext.text="Settings<";
+            };
+            this.settingshitbox.onExit = () => {
+                this.settingstext.setColor(255, 255, 255);
+                console.log("Settings Unhovered");
+                this.settingstext.text="Settings";
+            };
+            this.settingshitbox.onClick = () => {
+                //context.switchScene("settings");
+                console.log("Settings Clicked");
+                if (this.scenecamera) {
+                    this.cameraMoveTargetX = this.scenecamera.x + 1900;
+                    this.isCameraMoving = true;
+                }
+            };
+        }
 
         this.newgametext.text="New Game";
         this.continuetext.text="Continue";
         this.hatthnighttext.text="6th Night";
         this.exittext.text="Exit";
+        this.settingstext.text="Settings";
     },
 
     update(scene, deltaTime, input, context) {
+        if (this.isCameraMoving && this.scenecamera) {
+            const speed = 2000; // pixels per second
+            const moveStep = speed * deltaTime;
+            
+            if (this.scenecamera.x < this.cameraMoveTargetX) {
+                this.scenecamera.x += moveStep;
+                if (this.scenecamera.x >= this.cameraMoveTargetX) {
+                    this.scenecamera.x = this.cameraMoveTargetX;
+                    this.isCameraMoving = false;
+                }
+            }
+       }
+
         // In Menu: Press Enter to start
         /*if (input.getKeyDown("Enter")) {
             context.switchScene("game");
