@@ -29,5 +29,8 @@
         <ClickableArea name="ExitHitbox" />
     </Text>
     <Text name="Text12" text="Beta" x="1662.3109832134267" y="908.5245083932841" fontSize="120" fontFamily="Arial" color="#ffffff" layer="0" />
-    <Sprite name="NewsPaper" opacity="0" imageSrc="Assets/539.png" x="0" y="0" width="1920" height="1080" layer="3" />
+    <Sprite name="NewsPaper" opacity="0" imageSrc="" x="0" y="0" width="1920" height="1080" layer="3" />
+    <Text name="Settings" text="Settings" x="1600.7685213821064" y="-2.325629151114242" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1">
+        <ClickableArea name="SettingsHitbox" />
+    </Text>
 </Scene>
