@@ -30,6 +30,11 @@ export const MenuLogic = {
 
 
 
+    backbtn:null,
+    backbtnhitbox:null,
+
+
+
     onEnter(scene, context) {
         console.log("Menu Logic Loaded");
         this.menubg = (scene.getObjectByName("MenuBG"));
@@ -55,6 +60,10 @@ export const MenuLogic = {
         this.newspaper = (scene.getObjectByName("NewsPaper"));
 
         this.scenecamera = scene.getObjectByName("MainCamera");
+
+
+        this.backbtn = scene.getObjectByName("Backbtn");
+        this.backbtnhitbox = scene.getObjectByName("BackbtnHitbox");
 
 
 
@@ -154,6 +163,26 @@ export const MenuLogic = {
                 }
             };
         }
+        if (this.backbtnhitbox && this.backbtn) {
+            this.backbtnhitbox.onEnter = () => {
+                this.backbtn.setColor(200, 200, 255);
+                console.log("Back Hovered");
+                this.backbtn.text=">Back";
+            };
+            this.backbtnhitbox.onExit = () => {
+                this.backbtn.setColor(255, 255, 255);
+                console.log("Back Unhovered");
+                this.backbtn.text="Back";
+            };
+            this.backbtnhitbox.onClick = () => {
+                console.log("Back Clicked");
+                if (this.scenecamera) {
+                    this.cameraMoveTargetX = this.scenecamera.x - 1920;
+                    this.isCameraMoving = true;
+                }
+            }
+        }
+
 
         this.newgametext.text="New Game";
         this.continuetext.text="Continue";
@@ -170,6 +199,12 @@ export const MenuLogic = {
             if (this.scenecamera.x < this.cameraMoveTargetX) {
                 this.scenecamera.x += moveStep;
                 if (this.scenecamera.x >= this.cameraMoveTargetX) {
+                    this.scenecamera.x = this.cameraMoveTargetX;
+                    this.isCameraMoving = false;
+                }
+            } else if (this.scenecamera.x > this.cameraMoveTargetX) {
+                this.scenecamera.x -= moveStep;
+                if (this.scenecamera.x <= this.cameraMoveTargetX) {
                     this.scenecamera.x = this.cameraMoveTargetX;
                     this.isCameraMoving = false;
                 }
