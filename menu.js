@@ -34,6 +34,12 @@ export const MenuLogic = {
     backbtnhitbox:null,
 
 
+    settingsfullscreenonhitbox:null,
+    settingsfullscreenontext:null,
+    settingsfullscreenoffhitbox:null,
+    settingsfullscreenofftext:null,
+
+
 
     onEnter(scene, context) {
         console.log("Menu Logic Loaded");
@@ -64,6 +70,12 @@ export const MenuLogic = {
 
         this.backbtn = scene.getObjectByName("Backbtn");
         this.backbtnhitbox = scene.getObjectByName("BackbtnHitbox");
+
+
+        this.settingsfullscreenonhitbox = scene.getObjectByName("fullscreen_OnHitbox");
+        this.settingsfullscreenontext = scene.getObjectByName("fullscreen_On");
+        this.settingsfullscreenoffhitbox = scene.getObjectByName("fullscreen_OffHitbox");
+        this.settingsfullscreenofftext = scene.getObjectByName("fullscreen_Off");
 
 
 
@@ -182,6 +194,23 @@ export const MenuLogic = {
                 }
             }
         }
+        if(this.settingsfullscreenonhitbox && this.settingsfullscreenontext){
+            this.settingsfullscreenonhitbox.onClick = () => {
+                console.log("Fullscreen On Clicked");
+                if (context.window && context.window.setFullScreen) {
+                    context.window.setFullScreen(true);
+                }
+            };
+        }
+        if(this.settingsfullscreenoffhitbox && this.settingsfullscreenofftext){
+            this.settingsfullscreenoffhitbox.onClick = () => {
+                console.log("Fullscreen Off Clicked");
+                if (context.window && context.window.setFullScreen) {
+                    context.window.setFullScreen(false);
+                }
+            };
+        }
+
 
 
         this.newgametext.text="New Game";
@@ -224,7 +253,7 @@ export const MenuLogic = {
          const randomNumber2 = Math.floor(Math.random() * 71) + 10; // 10..80
 
 
-        console.log("[DEBUG ]Random Number:", randomNumber);
+        //console.log("[DEBUG ]Random Number:", randomNumber);
         
         if (this.menubg) {
             this.menubg.setTransparency(randomNumber);
