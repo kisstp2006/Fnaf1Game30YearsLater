@@ -37,5 +37,5 @@
     <Text name="Text_copy" text="Resolution:" x="2395.219082657459" y="300.70484313016806" fontSize="55" fontFamily="Consolas" color="#ffffff" layer="0" />
     <Text name="Text_copy_copy" text="Volume:" x="2395.219082657459" y="508.4424513694143" fontSize="55" fontFamily="Consolas" color="#ffffff" layer="0" />
     <Text name="Text_copy_copy_copy" text="Fullscreen:" x="2395.219082657459" y="409.4165937296884" fontSize="55" fontFamily="Consolas" color="#ffffff" layer="0" />
-    <Text name="Settings_copy" text="Back" x="3200" y="-4.572689103152605" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
+    <Text name="Settings_copy" text="Back" x="3650" y="-4.572689103152605" fontSize="70" fontFamily="Consolas" color="#ffffff" layer="1" />
 </Scene>

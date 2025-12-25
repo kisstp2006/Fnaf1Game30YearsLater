@@ -149,7 +149,7 @@ export const MenuLogic = {
                 //context.switchScene("settings");
                 console.log("Settings Clicked");
                 if (this.scenecamera) {
-                    this.cameraMoveTargetX = this.scenecamera.x + 1900;
+                    this.cameraMoveTargetX = this.scenecamera.x + 1920;
                     this.isCameraMoving = true;
                 }
             };
