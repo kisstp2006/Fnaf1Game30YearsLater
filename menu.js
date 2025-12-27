@@ -40,6 +40,9 @@ export const MenuLogic = {
     settingsfullscreenofftext:null,
 
 
+    selectedoption:"none",
+
+
 
     onEnter(scene, context) {
         console.log("Menu Logic Loaded");
@@ -96,8 +99,11 @@ export const MenuLogic = {
             };
             this.newgamehitbox.onClick = () => {
                 //context.switchScene("game");
-                this.fadetoNewsPaper();
-                console.log("New Game Clicked");
+                if(this.selectedoption=="none"){
+                    this.fadetoNewsPaper();
+                    console.log("New Game Clicked");
+                    this.selectedoption="newgame";
+                }
             };
         }
         if (this.continuethitbox && this.continuetext) {
