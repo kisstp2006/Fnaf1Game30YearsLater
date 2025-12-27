@@ -23,62 +23,63 @@ export const GameLogic = {
         this.turnright = scene.getObjectByName("Right");
         this.turnrighthitbox = scene.getObjectByName("RightHitbox");
 
-        // Start in the middle (front) view.
+        // Start in the middle/front view.
         if (this.office) {
             this.office.play("Base", true);
             this.currentofficestate = "Front";
-        }
 
-        if (this.turnlefthitbox && this.turnleft) {
-            this.turnlefthitbox.onEnter = () => {
-                if (!this.office) return;
-                if (this.currentofficestate !== "Front") return;
-
+            // Animation completion handler (fires for loop="false" animations).
             this.office.onAnimationComplete = (animName) => {
                 console.log("completed:", animName);
 
+                // After finishing the turn-left transition, show the looping Left view.
                 if (animName === "TurnLeft") {
+                    this.office.play("Left", true);
                     this.currentofficestate = "Left";
                 }
 
+                // After finishing the turn-back transition, return to Base/front.
                 if (animName === "TurnBackLeft") {
                     this.office.play("Base", true);
                     this.currentofficestate = "Front";
                 }
             };
+        }
 
-                // From middle/front, hovering the left zone turns left.
+        // Hover LeftHitbox while in Front -> play TurnLeft.
+        if (this.turnlefthitbox) {
+            this.turnlefthitbox.onEnter = () => {
+                if (!this.office) return;
+                if (this.currentofficestate !== "Front") return;
+
                 this.office.play("TurnLeft", true);
-                this.currentofficestate = "Left";
+                this.currentofficestate = "TurningLeft";
             };
+
             this.turnlefthitbox.onExit = () => {
 
             };
         }
 
-        if (this.turnrighthitbox && this.turnright) {
+        // Hover RightHitbox while in Left -> play TurnBackLeft.
+        // Note: "Left" is a looping animation, so isPlaying will be true; allow it.
+        if (this.turnrighthitbox) {
             this.turnrighthitbox.onEnter = () => {
                 if (!this.office) return;
                 if (this.currentofficestate !== "Left") return;
-                // Only allow turning back when the left-turn animation has fully stopped.
-                if (this.office.isPlaying) return;
+
+                // Don't interrupt a transition animation.
+                const isInLeftLoop = this.office.currentAnimationName === "Left";
+                if (!isInLeftLoop && this.office.isPlaying) return;
 
                 this.office.play("TurnBackLeft", true);
-                this.currentofficestate = "Returning";
+                this.currentofficestate = "TurningBackLeft";
             };
+
             this.turnrighthitbox.onExit = () => {
 
             };
         }
-
-        this.office.onAnimationComplete = (animName) => {
-        console.log("completed:", animName);
-
-        if (animName === "TurnBackLeftLeft") {
-            this.office.play("Base", true);
-            this.currentofficestate = "Front";
-        }
-        };
 
 
         //After everything is loaded make sure to play the basic office animation
@@ -98,8 +99,19 @@ export const GameLogic = {
                 }
                
             };
+        }
 
-        // Fallback: if TurnBackLeft ends but the completion callback doesn't fire, force Base.
+        // Fallbacks: if completion callback doesn't fire, switch anyway.
+        if (
+            this.office &&
+            this.currentofficestate === "TurningLeft" &&
+            this.office.currentAnimationName === "TurnLeft" &&
+            !this.office.isPlaying
+        ) {
+            this.office.play("Left", true);
+            this.currentofficestate = "Left";
+        }
+
         if (
             this.office &&
             this.currentofficestate === "TurningBackLeft" &&
@@ -108,7 +120,6 @@ export const GameLogic = {
         ) {
             this.office.play("Base", true);
             this.currentofficestate = "Front";
-        }
         }
 
 
