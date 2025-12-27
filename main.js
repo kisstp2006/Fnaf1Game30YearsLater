@@ -1,6 +1,6 @@
-import Engine from "../../Fluxion/Core/Engine.js";
-import SceneLoader from "../../Fluxion/Core/SceneLoader.js";
-import Input from "../../Fluxion/Core/Input.js";
+import Engine from "../Fluxion/Core/Engine.js";
+import SceneLoader from "../Fluxion/Core/SceneLoader.js";
+import Input from "../Fluxion/Core/Input.js";
 import { MenuLogic } from "./menu.js";
 import { LoadingLogic } from "./loading.js";
 import { GameLogic } from "./game.js";
