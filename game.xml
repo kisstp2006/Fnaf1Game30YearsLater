@@ -1,5 +1,8 @@
 <Scene name="GameScene">
-    <Camera name="MainCamera" x="0" y="0" zoom="1" />
-    <Sprite name="Player" imageSrc="../../Fluxion/Icon/Fluxion_icon.png" x="480" y="540" width="100" height="100" />
-    <Sprite name="Enemy" imageSrc="../../Fluxion/Icon/Fluxion_icon.png" x="1440" y="540" width="100" height="100" />
+    <Camera name="MainCamera" x="0" y="0" zoom="1" width="1920" height="1080" />
+    
+    <AnimatedSprite name="Office" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
+        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="60" loop="true" autoplay="true" />
+        <Animation name="TurnLeft" frames="0" speed="10" loop="true" autoplay="false" />
+    </AnimatedSprite>
 </Scene>
