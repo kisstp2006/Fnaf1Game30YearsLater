@@ -2,8 +2,9 @@
     <Camera name="MainCamera" x="0" y="0" zoom="1" width="1920" height="1080" />
     
     <AnimatedSprite name="Office" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
-        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="60" loop="true" autoplay="false" />
-        <Animation name="TurnLeft" frames="Assets/20001.png, Assets/20002.png, Assets/20003.png, Assets/20004.png, Assets/20005.png, Assets/20006.png, Assets/20007.png, Assets/20008.png, Assets/20009.png, Assets/20010.png, Assets/20011.png, Assets/20012.png, Assets/20013.png, Assets/20014.png" speed="10" loop="false" autoplay="false" />
+        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="40" loop="true" autoplay="false" />
+        <Animation name="TurnLeft" frames="Assets/20001.png, Assets/20002.png, Assets/20003.png, Assets/20004.png, Assets/20005.png, Assets/20006.png, Assets/20007.png, Assets/20008.png, Assets/20009.png, Assets/20010.png, Assets/20011.png, Assets/20012.png, Assets/20013.png, Assets/20014.png" speed="40" loop="false" autoplay="false" />
+        <Animation name="TurnBackLeft" frames="Assets/20014.png, Assets/20013.png, Assets/20012.png, Assets/20011.png, Assets/20010.png, Assets/20009.png, Assets/20008.png, Assets/20007.png, Assets/20006.png, Assets/20005.png, Assets/20004.png, Assets/20003.png, Assets/20002.png, Assets/20001.png" speed="40" loop="false" autoplay="false" />
     </AnimatedSprite>
     <Sprite name="OfficeGB" Active="false" imageSrc="Assets/30001.png" x="0" y="0" width="1920" height="1080" layer="1" />
     <Audio name="NoseAudio" src="Assets/Audio/PartyFavorraspyPart_AC01__3.wav" loop="false" autoplay="false" stopOnSceneChange="true" layer="0" />
