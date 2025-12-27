@@ -4,4 +4,5 @@
     <AnimatedSprite name="Office" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
         <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="60" loop="true" autoplay="false" />
     </AnimatedSprite>
+    <Sprite name="Sprite" Active="false" imageSrc="" x="0" y="0" width="128" height="128" layer="1" />
 </Scene>
