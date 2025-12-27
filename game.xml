@@ -2,7 +2,6 @@
     <Camera name="MainCamera" x="0" y="0" zoom="1" width="1920" height="1080" />
     
     <AnimatedSprite name="Office" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
-        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="60" loop="true" autoplay="true" />
-        <Animation name="TurnLeft" frames="0" speed="10" loop="true" autoplay="false" />
+        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="60" loop="true" autoplay="false" />
     </AnimatedSprite>
 </Scene>
