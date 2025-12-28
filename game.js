@@ -1,4 +1,9 @@
 export const GameLogic = {
+    leftdooropen:true,
+    
+    rightdooropen:true,
+
+
     office:null,
     freddynosehitbox: null,
     noseaudio:null,
@@ -11,6 +16,11 @@ export const GameLogic = {
 
     camerapickupicon:null,
     camerapickuphitbox:null,
+
+
+    leftdoorhitbox:null,
+
+    rightdoorhitbox:null,
 
 
     currentofficestate: "Front",
