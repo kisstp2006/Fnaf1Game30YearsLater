@@ -9,6 +9,9 @@ export const GameLogic = {
     turnright:null,
     turnrighthitbox:null,
 
+    camerapickupicon:null,
+    camerapickuphitbox:null,
+
 
     currentofficestate: "Front",
 
@@ -22,6 +25,27 @@ export const GameLogic = {
         this.turnlefthitbox = scene.getObjectByName("LeftHitbox");
         this.turnright = scene.getObjectByName("Right");
         this.turnrighthitbox = scene.getObjectByName("RightHitbox");
+        this.camerapickupicon = scene.getObjectByName("CameraPickup");
+        this.camerapickuphitbox = scene.getObjectByName("CameraPickupHitbox");
+
+
+        if (this.noseaudio && this.freddynosehitbox) {
+            this.freddynosehitbox.onClick = () => {
+                if (!this.noseaudio) return;
+
+                // "Looking forward" means we're in the Front state (Base animation).
+                // Using both state + currentAnimationName makes it resilient if you tweak states later.
+                const isLookingForward =
+                    this.currentofficestate === "Front" &&
+                    this.office &&
+                    this.office.currentAnimationName === "Base";
+
+                if (isLookingForward) {
+                    this.noseaudio.play();
+                }
+               
+            };
+        }
 
         // Start in the middle/front view.
         if (this.office) {
@@ -54,6 +78,8 @@ export const GameLogic = {
 
                 this.office.play("TurnLeft", true);
                 this.currentofficestate = "TurningLeft";
+                this.camerapickuphitbox.isActive = false;
+                this.camerapickupicon.isActive = false;
             };
 
             this.turnlefthitbox.onExit = () => {
@@ -92,14 +118,6 @@ export const GameLogic = {
             context.switchScene("menu");
         }
 
-        if (this.noseaudio && this.freddynosehitbox) {
-            this.freddynosehitbox.onClick = () => {
-                if(this.noseaudio){
-                    this.noseaudio.play();
-                }
-               
-            };
-        }
 
         // Fallbacks: if completion callback doesn't fire, switch anyway.
         if (
@@ -119,6 +137,8 @@ export const GameLogic = {
             !this.office.isPlaying
         ) {
             this.office.play("Base", true);
+            this.camerapickuphitbox.isActive = true;
+                this.camerapickupicon.isActive = true;
             this.currentofficestate = "Front";
         }
 
