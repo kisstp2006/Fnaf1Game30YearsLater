@@ -27,6 +27,7 @@ export const GameLogic = {
         refs.cameraPickupHitbox = scene.getObjectByName("CameraPickupHitbox");
 
         refs.leftDoorHitbox = scene.getObjectByName("LeftDoorHitbox");
+        refs.rightDoorHitbox = scene.getObjectByName("RightDoorHitbox");
 
         // Left door is only usable while looking left.
         if (refs.leftDoorHitbox) {
@@ -47,6 +48,29 @@ export const GameLogic = {
                 } else {
                     refs.office.play("LeftOpenDoor", true);
                     doors.leftOpen = true;
+                }
+            };
+        }
+
+        // Right door is only usable while looking right.
+        if (refs.rightDoorHitbox) {
+            refs.rightDoorHitbox.active = false;
+            refs.rightDoorHitbox.onClick = () => {
+                if (!refs.office) return;
+                if (this.viewState !== "Right") return;
+
+                // Prevent spamming while a transition is currently playing.
+                const isInRightView =
+                    refs.office.currentAnimationName === "Right" ||
+                    refs.office.currentAnimationName === "RightDoorClosed";
+                if (refs.office.isPlaying && !isInRightView) return;
+
+                if (doors.rightOpen) {
+                    refs.office.play("RightCloseDoor", true);
+                    doors.rightOpen = false;
+                } else {
+                    refs.office.play("RightOpenDoor", true);
+                    doors.rightOpen = true;
                 }
             };
         }
@@ -83,6 +107,7 @@ export const GameLogic = {
                     refs.office.play(doors.leftOpen ? "Left" : "LeftDoorClosed", true);
                     this.viewState = "Left";
                     if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = true;
+                    if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = false;
                 }
 
                 // After finishing the turn-back transition, return to Base/front.
@@ -92,13 +117,16 @@ export const GameLogic = {
                     if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
                     this.viewState = "Front";
                     if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
+                    if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = false;
                 }
 
                 // After finishing the turn-right transition, stay in the Right view.
                 // (If you later add a dedicated looping "Right" animation, you can switch to it here.)
                 if (animName === "TurnRight") {
+                    refs.office.play(doors.rightOpen ? "Right" : "RightDoorClosed", true);
                     this.viewState = "Right";
                     if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
+                    if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = true;
                 }
 
                 // After finishing the turn-back-from-right transition, return to Base/front.
@@ -108,6 +136,15 @@ export const GameLogic = {
                     if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
                     this.viewState = "Front";
                     if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
+                    if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = false;
+                }
+
+                // Snap right door animations to their idle poses.
+                if (animName === "RightCloseDoor") {
+                    refs.office.play("RightDoorClosed", true);
+                }
+                if (animName === "RightOpenDoor") {
+                    refs.office.play("Right", true);
                 }
             };
         }
@@ -121,7 +158,10 @@ export const GameLogic = {
                 // From Right view, hovering left edge returns back to Front.
                 if (this.viewState === "Right") {
                     // Don't interrupt a transition animation.
-                    if (refs.office.isPlaying && refs.office.currentAnimationName !== "TurnRight") return;
+                    const isInRightView =
+                        refs.office.currentAnimationName === "Right" ||
+                        refs.office.currentAnimationName === "RightDoorClosed";
+                    if (!isInRightView && refs.office.isPlaying) return;
                     refs.office.play("TurnBackRight", true);
                     this.viewState = "TurningBackRight";
                     return;
@@ -153,6 +193,7 @@ export const GameLogic = {
                     if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = false;
                     if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = false;
                     if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
+                    if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = false;
                     return;
                 }
 
@@ -213,8 +254,10 @@ export const GameLogic = {
             refs.office.currentAnimationName === "TurnRight" &&
             !refs.office.isPlaying
         ) {
+            refs.office.play(doors.rightOpen ? "Right" : "RightDoorClosed", true);
             this.viewState = "Right";
             if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
+            if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = true;
         }
 
         if (
@@ -228,6 +271,16 @@ export const GameLogic = {
             if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
             this.viewState = "Front";
             if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
+            if (refs.rightDoorHitbox) refs.rightDoorHitbox.active = false;
+        }
+
+        if (
+            refs.office &&
+            this.viewState === "Right" &&
+            (refs.office.currentAnimationName === "RightCloseDoor" || refs.office.currentAnimationName === "RightOpenDoor") &&
+            !refs.office.isPlaying
+        ) {
+            refs.office.play(doors.rightOpen ? "Right" : "RightDoorClosed", true);
         }
 
     }
