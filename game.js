@@ -38,6 +38,28 @@ export const GameLogic = {
         this.camerapickupicon = scene.getObjectByName("CameraPickup");
         this.camerapickuphitbox = scene.getObjectByName("CameraPickupHitbox");
 
+        this.leftdoorhitbox = scene.getObjectByName("LeftDoorHitbox");
+
+        // Left door is only usable while looking left.
+        if (this.leftdoorhitbox) {
+            this.leftdoorhitbox.active = false;
+            this.leftdoorhitbox.onClick = () => {
+                if (!this.office) return;
+                if (this.currentofficestate !== "Left") return;
+
+                // Prevent spamming while a transition is currently playing.
+                if (this.office.isPlaying && this.office.currentAnimationName !== "Left") return;
+
+                if (this.leftdooropen) {
+                    this.office.play("LeftCloseDoor", true);
+                    this.leftdooropen = false;
+                } else {
+                    this.office.play("LeftOpenDoor", true);
+                    this.leftdooropen = true;
+                }
+            };
+        }
+
 
         if (this.noseaudio && this.freddynosehitbox) {
             this.freddynosehitbox.onClick = () => {
@@ -70,6 +92,7 @@ export const GameLogic = {
                 if (animName === "TurnLeft") {
                     this.office.play("Left", true);
                     this.currentofficestate = "Left";
+                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
                 }
 
                 // After finishing the turn-back transition, return to Base/front.
@@ -78,6 +101,7 @@ export const GameLogic = {
                     if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
                     if (this.camerapickupicon) this.camerapickupicon.active = true;
                     this.currentofficestate = "Front";
+                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
                 }
             };
         }
@@ -140,6 +164,7 @@ export const GameLogic = {
         ) {
             this.office.play("Left", true);
             this.currentofficestate = "Left";
+            if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
         }
 
         if (
@@ -152,6 +177,7 @@ export const GameLogic = {
             if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
             if (this.camerapickupicon) this.camerapickupicon.active = true;
             this.currentofficestate = "Front";
+            if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
         }
 
 
