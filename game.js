@@ -122,7 +122,7 @@ export const GameLogic = {
 
                 // After finishing the turn-right transition, stay in the Right view.
                 // (If you later add a dedicated looping "Right" animation, you can switch to it here.)
-                if (animName === "TurnRight") {
+                if (animName === "TurnRight" || animName === "TurnRightWithDoorClosed") {
                     refs.office.play(doors.rightOpen ? "Right" : "RightDoorClosed", true);
                     this.viewState = "Right";
                     if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
@@ -130,7 +130,7 @@ export const GameLogic = {
                 }
 
                 // After finishing the turn-back-from-right transition, return to Base/front.
-                if (animName === "TurnBackRight") {
+                if (animName === "TurnBackRight" || animName === "TurnBackFromRightWithDoorClosed") {
                     refs.office.play("Base", true);
                     if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = true;
                     if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
@@ -162,7 +162,7 @@ export const GameLogic = {
                         refs.office.currentAnimationName === "Right" ||
                         refs.office.currentAnimationName === "RightDoorClosed";
                     if (!isInRightView && refs.office.isPlaying) return;
-                    refs.office.play("TurnBackRight", true);
+                    refs.office.play(doors.rightOpen ? "TurnBackRight" : "TurnBackFromRightWithDoorClosed", true);
                     this.viewState = "TurningBackRight";
                     return;
                 }
@@ -188,7 +188,7 @@ export const GameLogic = {
                 if (this.viewState === "Front") {
                     // Don't interrupt another transition.
                     if (refs.office.isPlaying && refs.office.currentAnimationName !== "Base") return;
-                    refs.office.play("TurnRight", true);
+                    refs.office.play(doors.rightOpen ? "TurnRight" : "TurnRightWithDoorClosed", true);
                     this.viewState = "TurningRight";
                     if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = false;
                     if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = false;
@@ -251,7 +251,7 @@ export const GameLogic = {
         if (
             refs.office &&
             this.viewState === "TurningRight" &&
-            refs.office.currentAnimationName === "TurnRight" &&
+            (refs.office.currentAnimationName === "TurnRight" || refs.office.currentAnimationName === "TurnRightWithDoorClosed") &&
             !refs.office.isPlaying
         ) {
             refs.office.play(doors.rightOpen ? "Right" : "RightDoorClosed", true);
@@ -263,7 +263,7 @@ export const GameLogic = {
         if (
             refs.office &&
             this.viewState === "TurningBackRight" &&
-            refs.office.currentAnimationName === "TurnBackRight" &&
+            (refs.office.currentAnimationName === "TurnBackRight" || refs.office.currentAnimationName === "TurnBackFromRightWithDoorClosed") &&
             !refs.office.isPlaying
         ) {
             refs.office.play("Base", true);
