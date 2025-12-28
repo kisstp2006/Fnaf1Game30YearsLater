@@ -14,7 +14,7 @@
         <Animation name="TurnLeftWithDoorClosed" frames="Assets/closed50001.png, Assets/closed50002.png, Assets/closed50003.png, Assets/closed50004.png, Assets/closed50005.png, Assets/closed50006.png, Assets/closed50007.png, Assets/closed50008.png, Assets/closed50009.png, Assets/closed50010.png, Assets/closed50011.png, Assets/closed50012.png, Assets/closed50013.png, Assets/closed50014.png, Assets/closed50015.png" speed="10" loop="false" autoplay="false" />
         <Animation name="TurnBackFromLeftWithDoorClosed" frames="Assets/closed50015.png, Assets/closed50014.png, Assets/closed50013.png, Assets/closed50012.png, Assets/closed50011.png, Assets/closed50010.png, Assets/closed50009.png, Assets/closed50008.png, Assets/closed50007.png, Assets/closed50006.png, Assets/closed50005.png, Assets/closed50004.png, Assets/closed50003.png, Assets/closed50002.png, Assets/closed50001.png" speed="10" loop="false" autoplay="false" />
         <Animation name="Right" frames="Assets/70001.png" speed="10" loop="true" autoplay="false" />
-        <Animation name="RightCloseDoor" frames="0" speed="10" loop="true" autoplay="false" />
+        <Animation name="RightCloseDoor" frames="Assets/70001.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png, path/to/frame.png" speed="10" loop="true" autoplay="false" />
         <Animation name="RightOpenDoor" frames="0" speed="10" loop="true" autoplay="false" />
         <Animation name="RightClosed" frames="0" speed="10" loop="true" autoplay="false" />
     </AnimatedSprite>
@@ -35,5 +35,7 @@
     <Sprite name="LeftDoor" opacity="0" imageSrc="2" x="1533.324998749346" y="485.390068478693" width="128" height="128" layer="3">
         <ClickableArea name="LeftDoorHitbox" />
     </Sprite>
-    <Sprite name="RightDoor" opacity="0" imageSrc="2" x="1553.324998749346" y="505.390068478693" width="128" height="128" layer="3" />
+    <Sprite name="RightDoor" opacity="0" imageSrc="2" x="268.2295551042623" y="488.6763994139448" width="128" height="128" layer="3">
+        <ClickableArea name="RightDoorHitbox" />
+    </Sprite>
 </Scene>
