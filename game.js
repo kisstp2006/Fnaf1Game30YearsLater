@@ -48,7 +48,10 @@ export const GameLogic = {
                 if (this.currentofficestate !== "Left") return;
 
                 // Prevent spamming while a transition is currently playing.
-                if (this.office.isPlaying && this.office.currentAnimationName !== "Left") return;
+                const isInLeftView =
+                    this.office.currentAnimationName === "Left" ||
+                    this.office.currentAnimationName === "LeftDoorClosed";
+                if (this.office.isPlaying && !isInLeftView) return;
 
                 if (this.leftdooropen) {
                     this.office.play("LeftCloseDoor", true);
@@ -90,7 +93,7 @@ export const GameLogic = {
 
                 // After finishing the turn-left transition, show the looping Left view.
                 if (animName === "TurnLeft") {
-                    this.office.play("Left", true);
+                    this.office.play(this.leftdooropen ? "Left" : "LeftDoorClosed", true);
                     this.currentofficestate = "Left";
                     if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
                 }
@@ -131,8 +134,10 @@ export const GameLogic = {
                 if (this.currentofficestate !== "Left") return;
 
                 // Don't interrupt a transition animation.
-                const isInLeftLoop = this.office.currentAnimationName === "Left";
-                if (!isInLeftLoop && this.office.isPlaying) return;
+                const isInLeftView =
+                    this.office.currentAnimationName === "Left" ||
+                    this.office.currentAnimationName === "LeftDoorClosed";
+                if (!isInLeftView && this.office.isPlaying) return;
 
                 this.office.play("TurnBackLeft", true);
                 this.currentofficestate = "TurningBackLeft";
@@ -162,7 +167,7 @@ export const GameLogic = {
             this.office.currentAnimationName === "TurnLeft" &&
             !this.office.isPlaying
         ) {
-            this.office.play("Left", true);
+            this.office.play(this.leftdooropen ? "Left" : "LeftDoorClosed", true);
             this.currentofficestate = "Left";
             if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
         }
