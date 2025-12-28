@@ -92,14 +92,14 @@ export const GameLogic = {
                 console.log("completed:", animName);
 
                 // After finishing the turn-left transition, show the looping Left view.
-                if (animName === "TurnLeft") {
+                if (animName === "TurnLeft" || animName === "TurnLeftWithDoorClosed") {
                     this.office.play(this.leftdooropen ? "Left" : "LeftDoorClosed", true);
                     this.currentofficestate = "Left";
                     if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
                 }
 
                 // After finishing the turn-back transition, return to Base/front.
-                if (animName === "TurnBackLeft") {
+                if (animName === "TurnBackLeft" || animName === "TurnBackFromLeftWithDoorClosed") {
                     this.office.play("Base", true);
                     if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
                     if (this.camerapickupicon) this.camerapickupicon.active = true;
@@ -115,7 +115,8 @@ export const GameLogic = {
                 if (!this.office) return;
                 if (this.currentofficestate !== "Front") return;
 
-                this.office.play("TurnLeft", true);
+                const turnAnim = this.leftdooropen ? "TurnLeft" : "TurnLeftWithDoorClosed";
+                this.office.play(turnAnim, true);
                 this.currentofficestate = "TurningLeft";
                 if (this.camerapickuphitbox) this.camerapickuphitbox.active = false;
                 if (this.camerapickupicon) this.camerapickupicon.active = false;
@@ -139,7 +140,8 @@ export const GameLogic = {
                     this.office.currentAnimationName === "LeftDoorClosed";
                 if (!isInLeftView && this.office.isPlaying) return;
 
-                this.office.play("TurnBackLeft", true);
+                const turnBackAnim = this.leftdooropen ? "TurnBackLeft" : "TurnBackFromLeftWithDoorClosed";
+                this.office.play(turnBackAnim, true);
                 this.currentofficestate = "TurningBackLeft";
             };
 
@@ -164,7 +166,7 @@ export const GameLogic = {
         if (
             this.office &&
             this.currentofficestate === "TurningLeft" &&
-            this.office.currentAnimationName === "TurnLeft" &&
+            (this.office.currentAnimationName === "TurnLeft" || this.office.currentAnimationName === "TurnLeftWithDoorClosed") &&
             !this.office.isPlaying
         ) {
             this.office.play(this.leftdooropen ? "Left" : "LeftDoorClosed", true);
@@ -175,7 +177,7 @@ export const GameLogic = {
         if (
             this.office &&
             this.currentofficestate === "TurningBackLeft" &&
-            this.office.currentAnimationName === "TurnBackLeft" &&
+            (this.office.currentAnimationName === "TurnBackLeft" || this.office.currentAnimationName === "TurnBackFromLeftWithDoorClosed") &&
             !this.office.isPlaying
         ) {
             this.office.play("Base", true);
