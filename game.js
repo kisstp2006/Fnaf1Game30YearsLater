@@ -106,6 +106,22 @@ export const GameLogic = {
                     this.currentofficestate = "Front";
                     if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
                 }
+
+                // After finishing the turn-right transition, stay in the Right view.
+                // (If you later add a dedicated looping "Right" animation, you can switch to it here.)
+                if (animName === "TurnRight") {
+                    this.currentofficestate = "Right";
+                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                }
+
+                // After finishing the turn-back-from-right transition, return to Base/front.
+                if (animName === "TurnBackRight") {
+                    this.office.play("Base", true);
+                    if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
+                    if (this.camerapickupicon) this.camerapickupicon.active = true;
+                    this.currentofficestate = "Front";
+                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                }
             };
         }
 
@@ -113,7 +129,16 @@ export const GameLogic = {
         if (this.turnlefthitbox) {
             this.turnlefthitbox.onEnter = () => {
                 if (!this.office) return;
-                if (this.currentofficestate !== "Front") return;
+                if (this.currentofficestate !== "Front" && this.currentofficestate !== "Right") return;
+
+                // From Right view, hovering left edge returns back to Front.
+                if (this.currentofficestate === "Right") {
+                    // Don't interrupt a transition animation.
+                    if (this.office.isPlaying && this.office.currentAnimationName !== "TurnRight") return;
+                    this.office.play("TurnBackRight", true);
+                    this.currentofficestate = "TurningBackRight";
+                    return;
+                }
 
                 const turnAnim = this.leftdooropen ? "TurnLeft" : "TurnLeftWithDoorClosed";
                 this.office.play(turnAnim, true);
@@ -132,7 +157,19 @@ export const GameLogic = {
         if (this.turnrighthitbox) {
             this.turnrighthitbox.onEnter = () => {
                 if (!this.office) return;
-                if (this.currentofficestate !== "Left") return;
+                if (this.currentofficestate !== "Left" && this.currentofficestate !== "Front") return;
+
+                // From Front view, hovering right edge turns to the Right.
+                if (this.currentofficestate === "Front") {
+                    // Don't interrupt another transition.
+                    if (this.office.isPlaying && this.office.currentAnimationName !== "Base") return;
+                    this.office.play("TurnRight", true);
+                    this.currentofficestate = "TurningRight";
+                    if (this.camerapickuphitbox) this.camerapickuphitbox.active = false;
+                    if (this.camerapickupicon) this.camerapickupicon.active = false;
+                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                    return;
+                }
 
                 // Don't interrupt a transition animation.
                 const isInLeftView =
@@ -178,6 +215,29 @@ export const GameLogic = {
             this.office &&
             this.currentofficestate === "TurningBackLeft" &&
             (this.office.currentAnimationName === "TurnBackLeft" || this.office.currentAnimationName === "TurnBackFromLeftWithDoorClosed") &&
+            !this.office.isPlaying
+        ) {
+            this.office.play("Base", true);
+            if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
+            if (this.camerapickupicon) this.camerapickupicon.active = true;
+            this.currentofficestate = "Front";
+            if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+        }
+
+        if (
+            this.office &&
+            this.currentofficestate === "TurningRight" &&
+            this.office.currentAnimationName === "TurnRight" &&
+            !this.office.isPlaying
+        ) {
+            this.currentofficestate = "Right";
+            if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+        }
+
+        if (
+            this.office &&
+            this.currentofficestate === "TurningBackRight" &&
+            this.office.currentAnimationName === "TurnBackRight" &&
             !this.office.isPlaying
         ) {
             this.office.play("Base", true);
