@@ -65,6 +65,8 @@ export const GameLogic = {
                 // After finishing the turn-back transition, return to Base/front.
                 if (animName === "TurnBackLeft") {
                     this.office.play("Base", true);
+                    if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
+                    if (this.camerapickupicon) this.camerapickupicon.active = true;
                     this.currentofficestate = "Front";
                 }
             };
@@ -78,8 +80,8 @@ export const GameLogic = {
 
                 this.office.play("TurnLeft", true);
                 this.currentofficestate = "TurningLeft";
-                this.camerapickuphitbox.isActive = false;
-                this.camerapickupicon.isActive = false;
+                if (this.camerapickuphitbox) this.camerapickuphitbox.active = false;
+                if (this.camerapickupicon) this.camerapickupicon.active = false;
             };
 
             this.turnlefthitbox.onExit = () => {
@@ -137,8 +139,8 @@ export const GameLogic = {
             !this.office.isPlaying
         ) {
             this.office.play("Base", true);
-            this.camerapickuphitbox.isActive = true;
-                this.camerapickupicon.isActive = true;
+            if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
+            if (this.camerapickupicon) this.camerapickupicon.active = true;
             this.currentofficestate = "Front";
         }
 
