@@ -1,198 +1,181 @@
 export const GameLogic = {
-    leftdooropen:true,
-    
-    rightdooropen:true,
-
-
-    office:null,
-    freddynosehitbox: null,
-    noseaudio:null,
-
-    turnleft:null,
-    turnlefthitbox:null,
-
-    turnright:null,
-    turnrighthitbox:null,
-
-    camerapickupicon:null,
-    camerapickuphitbox:null,
-
-
-    leftdoorhitbox:null,
-
-    rightdoorhitbox:null,
-
-
-    currentofficestate: "Front",
+    doors: { leftOpen: true, rightOpen: true },
+    refs: {
+        office: null,
+        noseHitbox: null,
+        noseAudio: null,
+        turnLeftHitbox: null,
+        turnRightHitbox: null,
+        cameraPickupIcon: null,
+        cameraPickupHitbox: null,
+        leftDoorHitbox: null,
+        rightDoorHitbox: null,
+    },
+    viewState: "Front",
 
     onEnter(scene, context) {
-        this.freddynosehitbox = scene.getObjectByName("NoseHitbox");
-        this.noseaudio = scene.getObjectByName("NoseAudio");
+        const refs = this.refs;
+        const doors = this.doors;
 
-        this.office = scene.getObjectByName("Office");
+        refs.noseHitbox = scene.getObjectByName("NoseHitbox");
+        refs.noseAudio = scene.getObjectByName("NoseAudio");
+        refs.office = scene.getObjectByName("Office");
 
-        this.turnleft = scene.getObjectByName("Left");
-        this.turnlefthitbox = scene.getObjectByName("LeftHitbox");
-        this.turnright = scene.getObjectByName("Right");
-        this.turnrighthitbox = scene.getObjectByName("RightHitbox");
-        this.camerapickupicon = scene.getObjectByName("CameraPickup");
-        this.camerapickuphitbox = scene.getObjectByName("CameraPickupHitbox");
+        refs.turnLeftHitbox = scene.getObjectByName("LeftHitbox");
+        refs.turnRightHitbox = scene.getObjectByName("RightHitbox");
+        refs.cameraPickupIcon = scene.getObjectByName("CameraPickup");
+        refs.cameraPickupHitbox = scene.getObjectByName("CameraPickupHitbox");
 
-        this.leftdoorhitbox = scene.getObjectByName("LeftDoorHitbox");
+        refs.leftDoorHitbox = scene.getObjectByName("LeftDoorHitbox");
 
         // Left door is only usable while looking left.
-        if (this.leftdoorhitbox) {
-            this.leftdoorhitbox.active = false;
-            this.leftdoorhitbox.onClick = () => {
-                if (!this.office) return;
-                if (this.currentofficestate !== "Left") return;
+        if (refs.leftDoorHitbox) {
+            refs.leftDoorHitbox.active = false;
+            refs.leftDoorHitbox.onClick = () => {
+                if (!refs.office) return;
+                if (this.viewState !== "Left") return;
 
                 // Prevent spamming while a transition is currently playing.
                 const isInLeftView =
-                    this.office.currentAnimationName === "Left" ||
-                    this.office.currentAnimationName === "LeftDoorClosed";
-                if (this.office.isPlaying && !isInLeftView) return;
+                    refs.office.currentAnimationName === "Left" ||
+                    refs.office.currentAnimationName === "LeftDoorClosed";
+                if (refs.office.isPlaying && !isInLeftView) return;
 
-                if (this.leftdooropen) {
-                    this.office.play("LeftCloseDoor", true);
-                    this.leftdooropen = false;
+                if (doors.leftOpen) {
+                    refs.office.play("LeftCloseDoor", true);
+                    doors.leftOpen = false;
                 } else {
-                    this.office.play("LeftOpenDoor", true);
-                    this.leftdooropen = true;
+                    refs.office.play("LeftOpenDoor", true);
+                    doors.leftOpen = true;
                 }
             };
         }
 
-
-        if (this.noseaudio && this.freddynosehitbox) {
-            this.freddynosehitbox.onClick = () => {
-                if (!this.noseaudio) return;
+        if (refs.noseAudio && refs.noseHitbox) {
+            refs.noseHitbox.onClick = () => {
+                if (!refs.noseAudio) return;
 
                 // "Looking forward" means we're in the Front state (Base animation).
                 // Using both state + currentAnimationName makes it resilient if you tweak states later.
                 const isLookingForward =
-                    this.currentofficestate === "Front" &&
-                    this.office &&
-                    this.office.currentAnimationName === "Base";
+                    this.viewState === "Front" &&
+                    refs.office &&
+                    refs.office.currentAnimationName === "Base";
 
                 if (isLookingForward) {
-                    this.noseaudio.play();
+                    refs.noseAudio.play();
                 }
                
             };
         }
 
         // Start in the middle/front view.
-        if (this.office) {
-            this.office.play("Base", true);
-            this.currentofficestate = "Front";
+        if (refs.office) {
+            refs.office.play("Base", true);
+            this.viewState = "Front";
 
             // Animation completion handler (fires for loop="false" animations).
-            this.office.onAnimationComplete = (animName) => {
+            refs.office.onAnimationComplete = (animName) => {
                 console.log("completed:", animName);
 
                 // After finishing the turn-left transition, show the looping Left view.
                 if (animName === "TurnLeft" || animName === "TurnLeftWithDoorClosed") {
-                    this.office.play(this.leftdooropen ? "Left" : "LeftDoorClosed", true);
-                    this.currentofficestate = "Left";
-                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
+                    refs.office.play(doors.leftOpen ? "Left" : "LeftDoorClosed", true);
+                    this.viewState = "Left";
+                    if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = true;
                 }
 
                 // After finishing the turn-back transition, return to Base/front.
                 if (animName === "TurnBackLeft" || animName === "TurnBackFromLeftWithDoorClosed") {
-                    this.office.play("Base", true);
-                    if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
-                    if (this.camerapickupicon) this.camerapickupicon.active = true;
-                    this.currentofficestate = "Front";
-                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                    refs.office.play("Base", true);
+                    if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = true;
+                    if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
+                    this.viewState = "Front";
+                    if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
                 }
 
                 // After finishing the turn-right transition, stay in the Right view.
                 // (If you later add a dedicated looping "Right" animation, you can switch to it here.)
                 if (animName === "TurnRight") {
-                    this.currentofficestate = "Right";
-                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                    this.viewState = "Right";
+                    if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
                 }
 
                 // After finishing the turn-back-from-right transition, return to Base/front.
                 if (animName === "TurnBackRight") {
-                    this.office.play("Base", true);
-                    if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
-                    if (this.camerapickupicon) this.camerapickupicon.active = true;
-                    this.currentofficestate = "Front";
-                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                    refs.office.play("Base", true);
+                    if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = true;
+                    if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
+                    this.viewState = "Front";
+                    if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
                 }
             };
         }
 
         // Hover LeftHitbox while in Front -> play TurnLeft.
-        if (this.turnlefthitbox) {
-            this.turnlefthitbox.onEnter = () => {
-                if (!this.office) return;
-                if (this.currentofficestate !== "Front" && this.currentofficestate !== "Right") return;
+        if (refs.turnLeftHitbox) {
+            refs.turnLeftHitbox.onEnter = () => {
+                if (!refs.office) return;
+                if (this.viewState !== "Front" && this.viewState !== "Right") return;
 
                 // From Right view, hovering left edge returns back to Front.
-                if (this.currentofficestate === "Right") {
+                if (this.viewState === "Right") {
                     // Don't interrupt a transition animation.
-                    if (this.office.isPlaying && this.office.currentAnimationName !== "TurnRight") return;
-                    this.office.play("TurnBackRight", true);
-                    this.currentofficestate = "TurningBackRight";
+                    if (refs.office.isPlaying && refs.office.currentAnimationName !== "TurnRight") return;
+                    refs.office.play("TurnBackRight", true);
+                    this.viewState = "TurningBackRight";
                     return;
                 }
 
-                const turnAnim = this.leftdooropen ? "TurnLeft" : "TurnLeftWithDoorClosed";
-                this.office.play(turnAnim, true);
-                this.currentofficestate = "TurningLeft";
-                if (this.camerapickuphitbox) this.camerapickuphitbox.active = false;
-                if (this.camerapickupicon) this.camerapickupicon.active = false;
+                const turnAnim = doors.leftOpen ? "TurnLeft" : "TurnLeftWithDoorClosed";
+                refs.office.play(turnAnim, true);
+                this.viewState = "TurningLeft";
+                if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = false;
+                if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = false;
             };
 
-            this.turnlefthitbox.onExit = () => {
-
-            };
+            refs.turnLeftHitbox.onExit = () => {};
         }
 
         // Hover RightHitbox while in Left -> play TurnBackLeft.
         // Note: "Left" is a looping animation, so isPlaying will be true; allow it.
-        if (this.turnrighthitbox) {
-            this.turnrighthitbox.onEnter = () => {
-                if (!this.office) return;
-                if (this.currentofficestate !== "Left" && this.currentofficestate !== "Front") return;
+        if (refs.turnRightHitbox) {
+            refs.turnRightHitbox.onEnter = () => {
+                if (!refs.office) return;
+                if (this.viewState !== "Left" && this.viewState !== "Front") return;
 
                 // From Front view, hovering right edge turns to the Right.
-                if (this.currentofficestate === "Front") {
+                if (this.viewState === "Front") {
                     // Don't interrupt another transition.
-                    if (this.office.isPlaying && this.office.currentAnimationName !== "Base") return;
-                    this.office.play("TurnRight", true);
-                    this.currentofficestate = "TurningRight";
-                    if (this.camerapickuphitbox) this.camerapickuphitbox.active = false;
-                    if (this.camerapickupicon) this.camerapickupicon.active = false;
-                    if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+                    if (refs.office.isPlaying && refs.office.currentAnimationName !== "Base") return;
+                    refs.office.play("TurnRight", true);
+                    this.viewState = "TurningRight";
+                    if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = false;
+                    if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = false;
+                    if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
                     return;
                 }
 
                 // Don't interrupt a transition animation.
                 const isInLeftView =
-                    this.office.currentAnimationName === "Left" ||
-                    this.office.currentAnimationName === "LeftDoorClosed";
-                if (!isInLeftView && this.office.isPlaying) return;
+                    refs.office.currentAnimationName === "Left" ||
+                    refs.office.currentAnimationName === "LeftDoorClosed";
+                if (!isInLeftView && refs.office.isPlaying) return;
 
-                const turnBackAnim = this.leftdooropen ? "TurnBackLeft" : "TurnBackFromLeftWithDoorClosed";
-                this.office.play(turnBackAnim, true);
-                this.currentofficestate = "TurningBackLeft";
+                const turnBackAnim = doors.leftOpen ? "TurnBackLeft" : "TurnBackFromLeftWithDoorClosed";
+                refs.office.play(turnBackAnim, true);
+                this.viewState = "TurningBackLeft";
             };
 
-            this.turnrighthitbox.onExit = () => {
-
-            };
+            refs.turnRightHitbox.onExit = () => {};
         }
-
-
-        //After everything is loaded make sure to play the basic office animation
 
     },
 
     update(scene, deltaTime, input, context) {
+        const refs = this.refs;
+        const doors = this.doors;
+
         // In Game: Press Escape to go back to menu
         if (input.getKeyDown("Escape")) {
             context.switchScene("menu");
@@ -201,54 +184,51 @@ export const GameLogic = {
 
         // Fallbacks: if completion callback doesn't fire, switch anyway.
         if (
-            this.office &&
-            this.currentofficestate === "TurningLeft" &&
-            (this.office.currentAnimationName === "TurnLeft" || this.office.currentAnimationName === "TurnLeftWithDoorClosed") &&
-            !this.office.isPlaying
+            refs.office &&
+            this.viewState === "TurningLeft" &&
+            (refs.office.currentAnimationName === "TurnLeft" || refs.office.currentAnimationName === "TurnLeftWithDoorClosed") &&
+            !refs.office.isPlaying
         ) {
-            this.office.play(this.leftdooropen ? "Left" : "LeftDoorClosed", true);
-            this.currentofficestate = "Left";
-            if (this.leftdoorhitbox) this.leftdoorhitbox.active = true;
+            refs.office.play(doors.leftOpen ? "Left" : "LeftDoorClosed", true);
+            this.viewState = "Left";
+            if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = true;
         }
 
         if (
-            this.office &&
-            this.currentofficestate === "TurningBackLeft" &&
-            (this.office.currentAnimationName === "TurnBackLeft" || this.office.currentAnimationName === "TurnBackFromLeftWithDoorClosed") &&
-            !this.office.isPlaying
+            refs.office &&
+            this.viewState === "TurningBackLeft" &&
+            (refs.office.currentAnimationName === "TurnBackLeft" || refs.office.currentAnimationName === "TurnBackFromLeftWithDoorClosed") &&
+            !refs.office.isPlaying
         ) {
-            this.office.play("Base", true);
-            if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
-            if (this.camerapickupicon) this.camerapickupicon.active = true;
-            this.currentofficestate = "Front";
-            if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+            refs.office.play("Base", true);
+            if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = true;
+            if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
+            this.viewState = "Front";
+            if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
         }
 
         if (
-            this.office &&
-            this.currentofficestate === "TurningRight" &&
-            this.office.currentAnimationName === "TurnRight" &&
-            !this.office.isPlaying
+            refs.office &&
+            this.viewState === "TurningRight" &&
+            refs.office.currentAnimationName === "TurnRight" &&
+            !refs.office.isPlaying
         ) {
-            this.currentofficestate = "Right";
-            if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+            this.viewState = "Right";
+            if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
         }
 
         if (
-            this.office &&
-            this.currentofficestate === "TurningBackRight" &&
-            this.office.currentAnimationName === "TurnBackRight" &&
-            !this.office.isPlaying
+            refs.office &&
+            this.viewState === "TurningBackRight" &&
+            refs.office.currentAnimationName === "TurnBackRight" &&
+            !refs.office.isPlaying
         ) {
-            this.office.play("Base", true);
-            if (this.camerapickuphitbox) this.camerapickuphitbox.active = true;
-            if (this.camerapickupicon) this.camerapickupicon.active = true;
-            this.currentofficestate = "Front";
-            if (this.leftdoorhitbox) this.leftdoorhitbox.active = false;
+            refs.office.play("Base", true);
+            if (refs.cameraPickupHitbox) refs.cameraPickupHitbox.active = true;
+            if (refs.cameraPickupIcon) refs.cameraPickupIcon.active = true;
+            this.viewState = "Front";
+            if (refs.leftDoorHitbox) refs.leftDoorHitbox.active = false;
         }
-
-
-
 
     }
 };
