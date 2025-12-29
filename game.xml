@@ -2,7 +2,7 @@
     <Camera name="MainCamera" x="0" y="0" zoom="1" width="1920" height="1080" />
     
     <AnimatedSprite name="Office" imageSrc="" x="0" y="0" width="1920" height="1080" frameWidth="0" frameHeight="0" layer="0">
-        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="40" loop="true" autoplay="true" />
+        <Animation name="Base" frames="Assets/30001.png, Assets/30002.png, Assets/30003.png, Assets/30004.png" speed="40" loop="true" autoplay="false" />
         <Animation name="TurnLeft" frames="Assets/20001.png, Assets/20002.png, Assets/20003.png, Assets/20004.png, Assets/20005.png, Assets/20006.png, Assets/20007.png, Assets/20008.png, Assets/20009.png, Assets/20010.png, Assets/20011.png, Assets/20012.png, Assets/20013.png, Assets/20014.png" speed="40" loop="false" autoplay="false" />
         <Animation name="TurnBackLeft" frames="Assets/20014.png, Assets/20013.png, Assets/20012.png, Assets/20011.png, Assets/20010.png, Assets/20009.png, Assets/20008.png, Assets/20007.png, Assets/20006.png, Assets/20005.png, Assets/20004.png, Assets/20003.png, Assets/20002.png, Assets/20001.png" speed="40" loop="false" autoplay="false" />
         <Animation name="Left" frames="Assets/50001.png" speed="10" loop="true" autoplay="false" />
@@ -40,4 +40,8 @@
     <Sprite name="RightDoor" opacity="0" imageSrc="2" x="268.2295551042623" y="488.6763994139448" width="128" height="128" layer="3">
         <ClickableArea name="RightDoorHitbox" />
     </Sprite>
+    <AnimatedSprite name="CameraTablet" Active="false" imageSrc="" x="0" y="0" width="128" height="128" frameWidth="32" frameHeight="32" layer="0">
+        <Animation name="Open" frames="Assets/cameratablet0000.png, Assets/cameratablet0001.png, Assets/cameratablet0002.png, Assets/cameratablet0003.png, Assets/cameratablet0004.png, Assets/cameratablet0005.png, Assets/cameratablet0006.png, Assets/cameratablet0007.png, Assets/cameratablet0008.png, Assets/cameratablet0009.png, Assets/cameratablet0010.png, Assets/cameratablet0011.png, Assets/cameratablet0012.png, Assets/cameratablet0013.png, Assets/cameratablet0014.png, Assets/cameratablet0015.png" speed="10" loop="false" autoplay="false" />
+        <Animation name="Closed" frames="Assets/cameratablet0015.png, Assets/cameratablet0014.png, Assets/cameratablet0013.png, Assets/cameratablet0012.png, Assets/cameratablet0011.png, Assets/cameratablet0010.png, Assets/cameratablet0009.png, Assets/cameratablet0008.png, Assets/cameratablet0007.png, Assets/cameratablet0006.png, Assets/cameratablet0005.png, Assets/cameratablet0004.png, Assets/cameratablet0003.png, Assets/cameratablet0002.png, Assets/cameratablet0001.png, Assets/cameratablet0000.png" speed="10" loop="false" autoplay="false" />
+    </AnimatedSprite>
 </Scene>

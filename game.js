@@ -11,7 +11,11 @@ export const GameLogic = {
         leftDoorHitbox: null,
         rightDoorHitbox: null,
     },
+
+    camera:{ panel:null, switchicon:null },
+
     viewState: "Front",
+    cameraState:"Off",
 
     onEnter(scene, context) {
         const refs = this.refs;
@@ -29,7 +33,23 @@ export const GameLogic = {
         refs.leftDoorHitbox = scene.getObjectByName("LeftDoorHitbox");
         refs.rightDoorHitbox = scene.getObjectByName("RightDoorHitbox");
 
+        this.camera.panel= scene.getObjectByName("CameraTablet");
+        this.camera.switchicon= scene.getObjectByName("CameraPickup");
+
         // Left door is only usable while looking left.
+
+        if (this.camera.switchicon) {
+            this.camera.switchicon.onClick = () => {
+                this.camera.panel.active=true;
+                this.camera.panel.play("Open");
+                this.camera.switchicon.active=false;
+
+                
+            }
+        }
+
+
+
         if (refs.leftDoorHitbox) {
             refs.leftDoorHitbox.active = false;
             refs.leftDoorHitbox.onClick = () => {
