@@ -8,6 +8,7 @@ import { GameLogic } from "./game.js";
 const input = new Input();
 
 const app = {
+    startScene: "game",
     currentScene: null,
     menuScene: null,
     loadingScene: null,
@@ -25,7 +26,7 @@ const app = {
         this.gameScene = await SceneLoader.load("./game.xml", renderer);
         
         // Start with Menu
-        this.switchScene("menu");
+        this.switchScene(this.startScene);
         
     },
 

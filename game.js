@@ -38,16 +38,51 @@ export const GameLogic = {
 
         // Left door is only usable while looking left.
 
-        if (this.camera.switchicon) {
-            this.camera.switchicon.onClick = () => {
-                this.camera.panel.active=true;
-                this.camera.panel.play("Open");
-                this.camera.switchicon.active=false;
+        // Camera tablet: hover the pickup area to toggle Open/Closed.
+        // NOTE: keep the pickup sprite *active*; hiding it via active=false would stop updating its ClickableArea child.
+        if (this.camera.panel) {
+            // Start hidden/off even if XML had it active.
+            this.camera.panel.active = false;
+            this.camera.panel.visible = false;
 
-                
-            }
+            // When the close animation finishes, fully hide/deactivate it.
+            this.camera.panel.onAnimationComplete = (animName) => {
+                if (animName !== "Closed") return;
+                this.camera.panel.active = false;
+                this.camera.panel.visible = false;
+                this.cameraState = "Off";
+
+                if (this.camera.switchicon) this.camera.switchicon.visible = true;
+            };
         }
 
+        if (refs.cameraPickupHitbox) {
+            refs.cameraPickupHitbox.onClick = null; // use hover toggle instead
+            refs.cameraPickupHitbox.onEnter = () => {
+                if (!this.camera.panel) return;
+                if (this.camera.panel.isPlaying) return; // don't restart mid-animation
+
+                if (this.cameraState === "Off") {
+                    this.camera.panel.active = true;
+                    this.camera.panel.visible = true;
+                    this.camera.panel.play("Open", true);
+                    this.cameraState = "On";
+
+                    if (this.camera.switchicon) this.camera.switchicon.visible = false;
+                } else if (this.cameraState === "On") {
+                    this.camera.panel.active = true;
+                    this.camera.panel.visible = true;
+                    this.camera.panel.play("Closed", true);
+                    // cameraState switches back to Off in onAnimationComplete
+                }
+            };
+
+            refs.cameraPickupHitbox.onExit = () => {
+                // Make the indicator visible again when leaving the hover area,
+                // even if the tablet is currently On.
+                if (this.camera.switchicon) this.camera.switchicon.visible = true;
+            };
+        }
 
 
         if (refs.leftDoorHitbox) {
