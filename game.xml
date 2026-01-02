@@ -31,7 +31,7 @@
     <Sprite name="Right" opacity="55" imageSrc="Assets/white.png" x="1751.11068743615" y="0" width="170" height="1080" layer="4">
         <ClickableArea name="RightHitbox" />
     </Sprite>
-    <Sprite name="CameraPickup" opacity="108" imageSrc="Assets/camopenpng.png" x="466.94997194483176" y="963.655441675688" width="1000" height="98" layer="5">
+    <Sprite name="CameraPickup" opacity="108" imageSrc="Assets/camopenpng.png" x="466.94997194483176" y="963.655441675688" width="1000" height="98" layer="12">
         <ClickableArea name="CameraPickupHitbox" />
     </Sprite>
     <Sprite name="LeftDoor" opacity="0" imageSrc="2" x="1533.324998749346" y="485.390068478693" width="128" height="128" layer="3">

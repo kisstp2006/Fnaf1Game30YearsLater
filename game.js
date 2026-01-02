@@ -44,8 +44,10 @@ export const GameLogic = {
         // NOTE: keep the pickup sprite *active*; hiding it via active=false would stop updating its ClickableArea child.
         if (this.camera.panel) {
             // Start hidden/off even if XML had it active.
+            this.camera.panel.stop();
             this.camera.panel.active = false;
             this.camera.panel.visible = false;
+            this.cameraState = "Off";
 
             if (refs.cameraRooms) {
                 refs.cameraRooms.active = false;
