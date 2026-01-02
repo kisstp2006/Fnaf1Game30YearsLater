@@ -260,6 +260,7 @@ export const GameLogic = {
         // Hover LeftHitbox while in Front -> play TurnLeft.
         if (refs.turnLeftHitbox) {
             refs.turnLeftHitbox.onEnter = () => {
+                if(this.cameraState === "On") return;
                 if (!refs.office) return;
                 if (this.viewState !== "Front" && this.viewState !== "Right") return;
 
@@ -289,6 +290,7 @@ export const GameLogic = {
         // Note: "Left" is a looping animation, so isPlaying will be true; allow it.
         if (refs.turnRightHitbox) {
             refs.turnRightHitbox.onEnter = () => {
+                if(this.cameraState === "On") return;
                 if (!refs.office) return;
                 if (this.viewState !== "Left" && this.viewState !== "Front") return;
 
