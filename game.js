@@ -49,6 +49,11 @@ export const GameLogic = {
             this.camera.panel.visible = false;
             this.cameraState = "Off";
 
+            const pp = context.renderer?.postProcessing;
+            if (pp && pp.isReady) {
+                pp.disableEffect("crt");
+            }
+
             if (refs.cameraRooms) {
                 refs.cameraRooms.active = false;
                 refs.cameraRooms.visible = false;
@@ -58,6 +63,13 @@ export const GameLogic = {
             this.camera.panel.onAnimationComplete = (animName) => {
                 if (animName === "Open") {
                     this.cameraState = "On";
+
+                    const pp = context.renderer?.postProcessing;
+                    if (pp && pp.isReady) {
+                        pp.enableEffect("crt");
+                        pp.setUniform("crt", "time", performance.now() / 1000);
+                    }
+
                     if (refs.cameraRooms) {
                         refs.cameraRooms.active = true;
                         refs.cameraRooms.visible = true;
@@ -70,6 +82,11 @@ export const GameLogic = {
                     this.camera.panel.active = false;
                     this.camera.panel.visible = false;
                     this.cameraState = "Off";
+
+                    const pp = context.renderer?.postProcessing;
+                    if (pp && pp.isReady) {
+                        pp.disableEffect("crt");
+                    }
 
                     if (refs.cameraRooms) {
                         refs.cameraRooms.active = false;
@@ -100,6 +117,12 @@ export const GameLogic = {
                         refs.cameraRooms.active = false;
                         refs.cameraRooms.visible = false;
                     }
+
+                    const pp = context.renderer?.postProcessing;
+                    if (pp && pp.isReady) {
+                        pp.disableEffect("crt");
+                    }
+
                     this.camera.panel.active = true;
                     this.camera.panel.visible = true;
                     this.camera.panel.play("Closed", true);
@@ -301,6 +324,11 @@ export const GameLogic = {
     update(scene, deltaTime, input, context) {
         const refs = this.refs;
         const doors = this.doors;
+
+        const pp = context.renderer?.postProcessing;
+        if (pp && pp.isReady && pp.activeEffects.includes("crt")) {
+            pp.setUniform("crt", "time", performance.now() / 1000);
+        }
 
         // In Game: Press Escape to go back to menu
         if (input.getKeyDown("Escape")) {

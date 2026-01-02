@@ -99,4 +99,4 @@ const app = {
 };
 
 // Start the engine
-new Engine("gameCanvas", app);
+new Engine("gameCanvas", app, 1920, 1080, true, true);
