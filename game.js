@@ -8,11 +8,12 @@ export const GameLogic = {
         turnRightHitbox: null,
         cameraPickupIcon: null,
         cameraPickupHitbox: null,
+        cameraRooms: null,
         leftDoorHitbox: null,
         rightDoorHitbox: null,
     },
 
-    camera:{ panel:null, switchicon:null },
+    camera:{ panel:null, switchicon:null,camerascree:null },
 
     viewState: "Front",
     cameraState:"Off",
@@ -29,6 +30,7 @@ export const GameLogic = {
         refs.turnRightHitbox = scene.getObjectByName("RightHitbox");
         refs.cameraPickupIcon = scene.getObjectByName("CameraPickup");
         refs.cameraPickupHitbox = scene.getObjectByName("CameraPickupHitbox");
+        refs.cameraRooms = scene.getObjectByName("CameraRooms");
 
         refs.leftDoorHitbox = scene.getObjectByName("LeftDoorHitbox");
         refs.rightDoorHitbox = scene.getObjectByName("RightDoorHitbox");
@@ -45,14 +47,35 @@ export const GameLogic = {
             this.camera.panel.active = false;
             this.camera.panel.visible = false;
 
-            // When the close animation finishes, fully hide/deactivate it.
-            this.camera.panel.onAnimationComplete = (animName) => {
-                if (animName !== "Closed") return;
-                this.camera.panel.active = false;
-                this.camera.panel.visible = false;
-                this.cameraState = "Off";
+            if (refs.cameraRooms) {
+                refs.cameraRooms.active = false;
+                refs.cameraRooms.visible = false;
+            }
 
-                if (this.camera.switchicon) this.camera.switchicon.visible = true;
+            // When animations finish, toggle the tablet/camera view state.
+            this.camera.panel.onAnimationComplete = (animName) => {
+                if (animName === "Open") {
+                    this.cameraState = "On";
+                    if (refs.cameraRooms) {
+                        refs.cameraRooms.active = true;
+                        refs.cameraRooms.visible = true;
+                        refs.cameraRooms.play("EveryOneOnStage", true);
+                    }
+                    return;
+                }
+
+                if (animName === "Closed") {
+                    this.camera.panel.active = false;
+                    this.camera.panel.visible = false;
+                    this.cameraState = "Off";
+
+                    if (refs.cameraRooms) {
+                        refs.cameraRooms.active = false;
+                        refs.cameraRooms.visible = false;
+                    }
+
+                    if (this.camera.switchicon) this.camera.switchicon.visible = true;
+                }
             };
         }
 
@@ -70,6 +93,11 @@ export const GameLogic = {
 
                     if (this.camera.switchicon) this.camera.switchicon.visible = false;
                 } else if (this.cameraState === "On") {
+                    // As soon as we start closing, hide the camera scene immediately.
+                    if (refs.cameraRooms) {
+                        refs.cameraRooms.active = false;
+                        refs.cameraRooms.visible = false;
+                    }
                     this.camera.panel.active = true;
                     this.camera.panel.visible = true;
                     this.camera.panel.play("Closed", true);
